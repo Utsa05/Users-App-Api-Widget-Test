@@ -1,22 +1,21 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
+import 'package:users_app_widget_testing/user_model.dart';
 import 'package:users_app_widget_testing/user_repositories.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  Future<List<User>> repository;
+  HomePage({
+    Key? key,
+    required this.repository,
+  }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final UserRepository repository = UserRepository();
-  @override
-  void initState() {
-    super.initState();
-    repository.getUsers();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +24,7 @@ class _HomePageState extends State<HomePage> {
         title: const Text("User"),
       ),
       body: FutureBuilder(
-          future: repository.getUsers(),
+          future: widget.repository,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final data = snapshot.data;
